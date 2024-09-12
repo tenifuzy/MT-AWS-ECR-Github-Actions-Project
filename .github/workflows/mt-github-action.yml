@@ -4,6 +4,10 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  AWS_REGION: us-east-1 
+  ECR_REPOSITORY: mt-github-ecr-project
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
