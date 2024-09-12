@@ -4,10 +4,6 @@ on:
   push:
     branches: [ "main" ]
 
-env:
-  AWS_REGION: us-east-1 # Change this to your desired AWS region
-  ECR_REPOSITORY: mt-github-ecr-project # Change this to your ECR repository name
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
