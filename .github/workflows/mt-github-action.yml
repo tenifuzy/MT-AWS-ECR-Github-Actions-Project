@@ -3,13 +3,6 @@ name: Build and Push Docker image to AWS ECR
 on:
   push:
     branches: [ "main" ]
-env:
-AWS_REGION: us-east-1
-name: Build and Push Docker image to AWS ECR
-
-on:
-  push:
-    branches: [ "main" ]
 
 env:
   AWS_REGION: us-east-1
