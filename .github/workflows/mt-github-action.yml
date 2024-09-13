@@ -6,11 +6,11 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}  # My AWS account ID and ECR registry URL
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}  # My ECR repository name
   IMAGE_TAG: ${{ github.sha }}
 
-jobs: 
+jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
@@ -21,13 +21,13 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         aws-region: ${{ env.AWS_REGION }}
 
     - name: Login to Amazon ECR
       run: |
-        aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_EGISTRY }}
+        aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
     - name: Build Docker image
       run: |
@@ -35,8 +35,8 @@ jobs:
 
     - name: Tag Docker image
       run: |
-        docker tag ${{ secrets.ECR_REGISTRY}}:latest ${{ secrets.ECR_REPOSITORY }}:latest
+        docker tag ${{ secrets.ECR_REPOSITORY }}:latest ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
 
     - name: Push Docker image to ECR
       run: |
-        docker push ${{ secrets.ECR_REGISTRY }}:latest
+        docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
